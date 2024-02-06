@@ -1,22 +1,20 @@
 package view.cores.menu;
 
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import controller.MenuController;
-import view.components.mybuttons.ButtonFactory;
-import view.components.mybuttons.ButtonFactoryImpl;
+import view.components.mybuttons.*;
 import view.containers.Size;
 import view.cores.ViewImpl;
-import view.cores.panels.panes.PaneFactory;
+import view.cores.panels.panes.*;
 import view.cores.panels.panes.PaneFactoryImpl;
-import view.cores.windows.WindowFactory;
-import view.cores.windows.WindowFactoryImpl;
+import view.cores.windows.*;
 
 public class MenuFactoryImpl implements MenuFactory{
 
@@ -41,9 +39,13 @@ public class MenuFactoryImpl implements MenuFactory{
         public void addMenuPane() {
             JPanel scene = (JPanel)panel.unwrap();
             menuPane = new JPanel(new GridBagLayout());
+            menuPane.setBorder(new EmptyBorder(20, 20, 20, 20));
             this.gbc = new GridBagConstraints();
             gbc.gridwidth = GridBagConstraints.REMAINDER;
-            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.weighty = 1;
+            menuPane.add(new JLabel("MENU"), gbc);
+            gbc.weighty = 0;
+            gbc.anchor = GridBagConstraints.NORTH;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             scene.add(menuPane);
         }
@@ -63,7 +65,7 @@ public class MenuFactoryImpl implements MenuFactory{
         @Override
         public <B> void fillButtons() {
             ButtonFactory factory = new ButtonFactoryImpl();
-
+            
             Arrays.stream(Difficulty.values())
                 .map(FireButton::new)
                 .map(factory::cellSwingFromButton)
@@ -75,8 +77,8 @@ public class MenuFactoryImpl implements MenuFactory{
         private ActionListener onClick() {
             return e -> {
                 final FireButton bt = (FireButton)e.getSource();
-                menuController.getInfo(bt.getStats());
-                menuController.start();
+                menuController.setLevel(bt.getStats());
+                menuController.start(null);
                 this.window.close();
             };
         }

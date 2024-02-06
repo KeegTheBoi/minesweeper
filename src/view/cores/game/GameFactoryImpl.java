@@ -1,6 +1,6 @@
 package view.cores.game;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.*;
 import java.util.*;
 
@@ -9,15 +9,11 @@ import javax.swing.event.MouseInputAdapter;
 
 import controller.GameController;
 import view.Level;
-import view.components.mybuttons.Button;
-import view.components.mybuttons.ButtonFactory;
-import view.components.mybuttons.ButtonFactoryImpl;
+import view.components.mybuttons.*;
 import view.containers.Size;
 import view.cores.ViewImpl;
-import view.cores.panels.panes.PaneFactory;
-import view.cores.panels.panes.PaneFactoryImpl;
-import view.cores.windows.WindowFactory;
-import view.cores.windows.WindowFactoryImpl;
+import view.cores.panels.panes.*;
+import view.cores.windows.*;
 
 public class GameFactoryImpl implements GameFactory {
 
@@ -42,16 +38,13 @@ public class GameFactoryImpl implements GameFactory {
 
     private class SwingGameImpl extends ViewImpl implements GameView{
 
-        private JPanel main = new JPanel();
-        
-
         public SwingGameImpl(Optional<Level> withStats) {
             withStats.ifPresent(l -> stats = l);
         }
 
 
         @Override
-        public <C> void addComponentsToGrid(Button<C> compo) {
+        public <C> void addComponentsToGrid(ViewButton<C> compo) {
             // JButton button = (JButton)compo.unwrap();
             // // button.addActionListener(e -> System.out.println("DD"));
             // this.main.add(button);
@@ -60,7 +53,7 @@ public class GameFactoryImpl implements GameFactory {
 
 
         private GameView build() {
-            contr = new GameController<>(this);
+            contr = new GameController<>();
             size = stats.size();
             this.setWindow(winFactory.swingFrame(new Size(size, size)));
             this.window.init();
@@ -74,16 +67,16 @@ public class GameFactoryImpl implements GameFactory {
         private void fillGrid() {
             for (int i=0; i<size; i++){
                 for (int j=0; j<size; j++){
-                    final Button<JButton> jb = newButton();
+                    final ViewButton<JButton> jb = newButton();
                     contr.addButton(jb, j, i);
                     this.addComponentsToGrid(jb);
                 }
             }
         }
 
-        private Button<JButton> newButton() {
+        private ViewButton<JButton> newButton() {
             JButton btn = new JButton();
-            Button<JButton> button = bFactory.cellSwingFromButton(btn);
+            ViewButton<JButton> button = bFactory.cellSwingFromButton(btn);
             button.setID(id++);
             button.triggerEvent(b -> b.addMouseListener(this.onRightClick()));
             button.triggerEvent(b -> b.addActionListener(this.onLeftCick()));
@@ -97,7 +90,7 @@ public class GameFactoryImpl implements GameFactory {
                 public void mouseClicked(MouseEvent e) {
                     final JButton bt = (JButton)e.getSource();
                     contr.handleRightClick(bFactory.cellSwingFromButton(bt));
-                    contr.refresh();
+                    contr.refresh(true);
                 }
             };
         }   
@@ -106,7 +99,7 @@ public class GameFactoryImpl implements GameFactory {
             return (e) ->{
                 final JButton bt = (JButton)e.getSource();
                 contr.handleLeftClick(bFactory.cellSwingFromButton(bt));
-                contr.refresh();
+                contr.refresh(false);
             };
         }
 
@@ -118,7 +111,7 @@ public class GameFactoryImpl implements GameFactory {
         }
 
         @Override
-        public <C> void modifyButton(Button<C> btn) {
+        public <C> void modifyButton(ViewButton<C> btn) {
             JButton button = (JButton)btn.unwrap();
             button.setText(btn.getText());
             button.setEnabled(!btn.isDisable());
@@ -129,7 +122,13 @@ public class GameFactoryImpl implements GameFactory {
 
         @Override
         public void startController() {
-            contr.start();
+            contr.start(this);
+        }
+
+
+        @Override
+        public Level getLevel() {
+            return stats;
         }
     }
 

@@ -4,11 +4,11 @@ import javax.swing.*;
 
 public interface ButtonFactory {
 
-    Button<JButton> cellSwingNewButton();
+    ViewButton<JButton> cellSwingNewButton();
 
-    Button<JButton> cellSwingTextButton(String text);
+    ViewButton<JButton> cellSwingTextButton(String text);
 
-    Button<JButton> cellSwingFromButton(JButton button);
+    ViewButton<JButton> cellSwingFromButton(JButton button);
 
     // <E> Button<E> cellJavaFXButton();
 

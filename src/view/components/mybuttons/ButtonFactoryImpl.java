@@ -6,26 +6,26 @@ import javax.swing.*;
 
 public class ButtonFactoryImpl implements ButtonFactory{
 
-    Map<JButton, Button<JButton>> cache = new HashMap<>();
+    Map<JButton, ViewButton<JButton>> cache = new HashMap<>();
 
     @Override
-    public Button<JButton> cellSwingNewButton() {
-        return new Button<>(JButton::new);
+    public ViewButton<JButton> cellSwingNewButton() {
+        return new ViewButton<>(JButton::new);
     }
 
     @Override
-    public Button<JButton> cellSwingFromButton(JButton button) {
+    public ViewButton<JButton> cellSwingFromButton(JButton button) {
         if(cache.containsKey(button)) {
             return cache.get(button);
         }
-        var added = new Button<>(() -> button);
+        var added = new ViewButton<>(() -> button);
         this.cache.put(button, added);
         return added;
     }
 
     @Override
-    public Button<JButton> cellSwingTextButton(String text) {
-        return new Button<>(() -> new JButton(text));
+    public ViewButton<JButton> cellSwingTextButton(String text) {
+        return new ViewButton<>(() -> new JButton(text));
     }
     
 }

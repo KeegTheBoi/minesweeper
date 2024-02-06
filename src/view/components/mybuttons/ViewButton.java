@@ -6,9 +6,9 @@ import java.util.*;
 
 import view.components.ViewComponentImpl;
 
-public class Button<B> extends ViewComponentImpl<B>{
+public class ViewButton<B> extends ViewComponentImpl<B>{
 
-    public Button(Supplier<B> supplier) {
+    public ViewButton(Supplier<B> supplier) {
         this.supplier = supplier;
     }
 

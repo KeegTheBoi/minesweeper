@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import view.containers.Container;
 import view.containers.Size;
-import view.cores.panels.panes.PaneFactory;
-import view.cores.panels.panes.PaneFactoryImpl;
-
 
 public class WindowFactoryImpl implements WindowFactory {
 

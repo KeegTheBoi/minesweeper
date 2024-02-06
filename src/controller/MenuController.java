@@ -1,26 +1,22 @@
 package controller;
 
 import java.util.Objects;
-
-import view.GameUI;
 import view.Level;
-import view.cores.game.GameFactory;
-import view.cores.game.GameFactoryImpl;
-import view.cores.game.GameView;
+import view.cores.game.*;
 
 public class MenuController implements Controller{
 
-    private Level stats;
     private GameFactory game = new GameFactoryImpl();
+    private Level level;
 
     public MenuController() {}
 
     @Override
-    public void start() {
-        if(Objects.isNull(stats)) {
+    public void start(GameView gameView) {
+        if(Objects.isNull(level)) {
             throw new IllegalStateException();
         }
-        GameView view = game.swingGameView(stats);
+        GameView view = game.swingGameView(level);
         view.startController();
     }
 
@@ -28,8 +24,8 @@ public class MenuController implements Controller{
     public void reset() {
     }
 
-    public void getInfo(Level stats) {
-        this.stats = stats;
+    public void setLevel(Level stats) {
+        this.level = stats;
     }
     
 }
