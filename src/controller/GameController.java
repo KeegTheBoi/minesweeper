@@ -3,21 +3,19 @@ package controller;
 import model.*;
 import model.cells.*;
 import view.*;
-import view.components.ViewComponent;
 import view.components.mybuttons.Button;
 import view.cores.*;
+import view.cores.game.GameView;
 
 import java.util.*;
 
-import javax.swing.JButton;
-
 import static java.util.function.Predicate.not;
 
-public class GameController<W,P,C> implements Controller{
+public class GameController<C> implements Controller{
 
     private final Map<Button<C>, Coord> cells = new HashMap<>();
     private Logics logics;
-    private GameView<W,P> gameView;
+    private GameView gameView;
     private Map<Integer, String> mapColor = new HashMap<>(Map.of(
          0, "#333333",
          1, "#006400",
@@ -28,7 +26,7 @@ public class GameController<W,P,C> implements Controller{
     ));
 
 
-    public GameController(GameView<W, P> view) {
+    public GameController(GameView view) {
         this.gameView = view;
     }
 

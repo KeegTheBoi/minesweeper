@@ -2,29 +2,30 @@ package view;
 
 import javax.swing.*;
 import javax.swing.event.*;
+
+import java.awt.Window;
 import java.awt.event.*;
 
 import controller.GameController;
-import view.components.ViewComponent;
-import view.components.ViewComponentFactory;
-import view.components.ViewComponentFactoryImpl;
-import view.components.mybuttons.Button;
-import view.components.mybuttons.ButtonFactory;
-import view.components.mybuttons.ButtonFactoryImpl;
+import view.components.*;
+import view.components.mybuttons.*;
 import view.containers.Size;
-import view.cores.GameFactory;
-import view.cores.GameFactoryImpl;
-import view.cores.GameView;
+import view.cores.*;
+import view.cores.game.GameFactory;
+import view.cores.game.GameFactoryImpl;
+import view.cores.game.GameView;
+import view.cores.windows.WindowFactory;
+import view.cores.windows.WindowFactoryImpl;
 
 public class GameUI extends Page{
 
     private int size;
-    private GameController<JFrame, JPanel, JButton> contr;
+    private GameController<JButton> contr;
     private Level stats;
     
     ButtonFactory bFactory = new ButtonFactoryImpl(); 
     ViewComponentFactory compoFactory = new ViewComponentFactoryImpl();
-    GameView<JFrame, JPanel> game;
+    GameView game;
     private int id;
 
 
@@ -37,10 +38,11 @@ public class GameUI extends Page{
         this.stats = stats;
         this.size = size;
         GameFactory gameFactory = new GameFactoryImpl();
+        WindowFactory winFactory = new WindowFactoryImpl();
         this.game = gameFactory.swingGameView();
         this.contr = new GameController<>(game);
-        this.game.initWindow(new Size(size, size));
-        this.game.addMainPane();
+        this.game.setWindow(winFactory.swingFrame(new Size(size, size), null));
+        this.game.buildWindow();
         this.game.setGridPane();
         this.fillGrid();
         this.contr.start();
@@ -48,7 +50,7 @@ public class GameUI extends Page{
 
 
     private Button<JButton> newButton() {
-        JButton btn = new JButton("DD");
+        JButton btn = new JButton();
         Button<JButton> button = bFactory.cellSwingFromButton(btn);
         button.setID(id++);
         button.triggerEvent(b -> b.addMouseListener(this.onRightClick()));
@@ -69,7 +71,6 @@ public class GameUI extends Page{
     private ActionListener onLeftCick() {
         return (e) ->{
             final JButton bt = (JButton)e.getSource();
-            var b = bFactory.cellSwingFromButton(bt);
             contr.handleLeftClick(bFactory.cellSwingFromButton(bt));
             contr.refresh();
         };
@@ -84,20 +85,5 @@ public class GameUI extends Page{
                 contr.refresh();
             }
         };
-    }
-
-
-    public void modifyButton(ViewComponent<JButton> k, String txt, String bgColor, boolean enable) {
-        k.setText(txt);
-        k.setBGColor(bgColor);
-        k.setDisable(enable);
-    }
-
-    public void modifyButton(ViewComponent<JButton> btn, String text) {
-        btn.setText(text);
-    }
-
-
-
-    
+    }    
 }

@@ -1,24 +1,27 @@
 package view.cores.windows;
 
-
 import javax.swing.*;
+import java.awt.*;
+import view.containers.Container;
 import view.containers.Size;
+
 
 public class WindowFactoryImpl implements WindowFactory {
 
     @Override
-    public Window<JFrame> swingFrame(Size size) {
-        return new SwingWindow<JFrame>(size).build();
+    public Window swingFrame(Size size, Container defaultPane) {
+        return new SwingWindow(size, defaultPane).build();
     }
     
-    private class SwingWindow<F> implements Window<F> {
+    private class SwingWindow implements Window {
 
         private JFrame frame;
-        private JPanel panel;
         private Size size;
+        private Container scene;
 
-        public SwingWindow(Size size2) {
+        public SwingWindow(Size size2, Container scene) {
             this.size = size2;
+            this.scene = scene;
         }
 
         @Override
@@ -45,16 +48,20 @@ public class WindowFactoryImpl implements WindowFactory {
             System.exit(0);
         }
 
+
         @Override
-        public void setScene(Object scene) {
-            this.panel = (JPanel)scene;
-            frame.getContentPane().add(this.panel);
+        public void setScene() {
+            JPanel panel = (JPanel)scene.unwrap();
+            frame.getContentPane().add(BorderLayout.CENTER, panel);
+            panel.add(new JButton("EASY"));
         }
 
 
-        private SwingWindow<F> build() {
+        private SwingWindow build() {
             this.frame = new JFrame("Minesweeper");
+            this.frame.setDefaultCloseOperation(3);
             this.setDimension();
+            setScene();
             return this;
         }
 
@@ -62,6 +69,7 @@ public class WindowFactoryImpl implements WindowFactory {
         public Size getSize() {
             return this.size;
         }
+
 
     }
 }

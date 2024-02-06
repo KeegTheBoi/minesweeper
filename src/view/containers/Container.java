@@ -1,14 +1,13 @@
 package view.containers;
 
-import java.awt.Component;
 
 import view.components.ViewComponent;
 
-public interface Container<G> {
+public interface Container {
 
     <C> void addToContainer(ViewComponent<C> compo);
 
-    <C> void addToContainer(Container<C> container);
+    void addToContainer(Container container);
 
     void initializeContainer();
 
@@ -16,11 +15,6 @@ public interface Container<G> {
 
     Size getDimension();
 
-    void setContainer(G contains);
-
-    G getContainer();
-
-    Component unwrap();
-
+    Object unwrap();
 
 }

@@ -1,16 +1,15 @@
-package view;
+package view.cores.menu;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.awt.Rectangle;
 
 import javax.swing.JButton;
 import javax.swing.border.Border;
 
-import view.MenuView.Difficulty;
+import view.Level;
+import view.MenuUI.Difficulty;
 
 public class FireButton extends JButton {
     private static int WIDTH = 4;

@@ -1,12 +1,18 @@
 package view.cores;
 
-import view.containers.Size;
+
+import view.containers.Container;
+import view.cores.windows.Window;
 
 public interface View {
 
-    void initWindow(Size size);
+    void setWindow(Window window);
+
+    void buildWindow();
 
     void closeWithMessage(String string);
 
     void messageBox(String string);
+
+    void addMainPane(Container pane);
 }

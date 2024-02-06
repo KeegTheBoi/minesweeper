@@ -2,7 +2,7 @@ package view.cores.windows;
 
 import view.containers.Size;
 
-public interface Window<W> {
+public interface Window {
 
     void close();
 
@@ -12,9 +12,10 @@ public interface Window<W> {
 
     void exit();
 
-    void setScene(Object scene);
+    void setScene();
 
     Size getSize();
+
 
     
 } 

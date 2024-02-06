@@ -8,7 +8,7 @@ import java.util.Arrays;
 import controller.MenuController;
 
 
-public class MenuView extends Page{
+public class MenuUI extends Page{
 
     public enum Difficulty{
         EASY, INTERMIDATE, HARD, VIETNAM
@@ -17,7 +17,7 @@ public class MenuView extends Page{
     MenuController menuController;
     private GridBagConstraints gbc;
 
-    public MenuView(int size) {
+    public MenuUI(int size) {
         super(size);
         panel.setLayout(new GridBagLayout());
         this.gbc = new GridBagConstraints();
@@ -26,25 +26,11 @@ public class MenuView extends Page{
         gbc.fill = GridBagConstraints.HORIZONTAL;
         this.getContentPane().add(panel);
 
-        createMenu();
-        menuController = new MenuController(this);
+        
+        menuController = new MenuController();
         this.display();
     }
 
-    private void createMenu() {
-        Arrays.stream(Difficulty.values()).map(FireButton::new)
-            .peek(fb -> fb.addActionListener(onClick()))
-            .forEach(b -> panel.add(b, gbc));
-            
-    }
-
-    private ActionListener onClick() {
-        return e -> {
-            final FireButton bt = (FireButton)e.getSource();
-            menuController.start();
-            this.close();
-        };
-    }
 
     
     
