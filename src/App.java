@@ -1,7 +1,8 @@
-import controller.GUI;
+
+import view.MenuView;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        new GUI();
+        new MenuView(5);
     }
 }

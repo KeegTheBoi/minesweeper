@@ -1,28 +1,24 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
-import javax.swing.BoxLayout;
-import javax.swing.border.EmptyBorder;
-
-import controller.Controller;
+import controller.MenuController;
 
 
-public class Menu extends Page{
+public class MenuView extends Page{
 
     public enum Difficulty{
         EASY, INTERMIDATE, HARD, VIETNAM
     }
 
+    MenuController menuController;
     private GridBagConstraints gbc;
 
-    public Menu(int size, Controller contr) {
-        super(size, contr);
+    public MenuView(int size) {
+        super(size);
         panel.setLayout(new GridBagLayout());
         this.gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -31,6 +27,8 @@ public class Menu extends Page{
         this.getContentPane().add(panel);
 
         createMenu();
+        menuController = new MenuController(this);
+        this.display();
     }
 
     private void createMenu() {
@@ -43,7 +41,7 @@ public class Menu extends Page{
     private ActionListener onClick() {
         return e -> {
             final FireButton bt = (FireButton)e.getSource();
-            contr.getGameLevel(bt);
+            menuController.start();
             this.close();
         };
     }

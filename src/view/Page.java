@@ -10,13 +10,11 @@ import controller.Controller;
 public class Page extends JFrame{
     
     protected JPanel panel;
-    protected Controller contr;
 
-    public Page(int size, Controller contr) {
+    public Page(int size) {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(48*size, 48*size);
         panel = new JPanel();
-        this.contr = contr;
     }
 
     public void exit() {

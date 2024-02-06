@@ -8,10 +8,9 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 
 import javax.swing.JButton;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
-import view.Menu.Difficulty;
+import view.MenuView.Difficulty;
 
 public class FireButton extends JButton {
     private static int WIDTH = 4;
