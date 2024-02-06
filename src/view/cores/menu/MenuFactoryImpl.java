@@ -1,15 +1,16 @@
 package view.cores.menu;
 
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 import javax.swing.*;
 
 import controller.MenuController;
-import view.components.mybuttons.Button;
 import view.components.mybuttons.ButtonFactory;
 import view.components.mybuttons.ButtonFactoryImpl;
-import view.containers.Container;
 import view.containers.Size;
 import view.cores.ViewImpl;
 import view.cores.panels.panes.PaneFactory;
@@ -35,35 +36,40 @@ public class MenuFactoryImpl implements MenuFactory{
     private class SwingMenuView extends  ViewImpl implements MenuView{
 
         private JPanel menuPane;
+        private GridBagConstraints gbc;
         @Override
         public void addMenuPane() {
             JPanel scene = (JPanel)panel.unwrap();
-            menuPane = new JPanel();
+            menuPane = new JPanel(new GridBagLayout());
+            this.gbc = new GridBagConstraints();
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
             scene.add(menuPane);
         }
 
         public MenuView build() {
-            Container main = paneFactory.swingPane();
             
-            this.addMainPane(main);
-            this.setWindow(windowFactory.swingFrame(new Size(5, 5), this.panel));
-            this.buildWindow();
-            this.window.setScene();
-            
+            this.setWindow(windowFactory.swingFrame(new Size(5, 5)));
+            this.window.init();
+            this.addMainPane(paneFactory.swingBorder());
             this.addMenuPane();
             this.fillButtons();
+
+            this.buildWindow();
             return this;
         }
 
         @Override
         public <B> void fillButtons() {
             ButtonFactory factory = new ButtonFactoryImpl();
-            Button<JButton> button = factory.cellSwingNewButton();
-            
-            Arrays.stream(Difficulty.values()).map(Difficulty::toString).peek(button::setText)
-                .peek(gb -> button.triggerEvent(b -> b.addActionListener(onClick())))
-                .map(r -> (JButton)button.unwrap())
-                .forEach(b -> menuPane.add(b));
+
+            Arrays.stream(Difficulty.values())
+                .map(FireButton::new)
+                .map(factory::cellSwingFromButton)
+                .peek(gb -> gb.triggerEvent(b -> b.addActionListener(onClick())))
+                .map(r -> (FireButton)r.unwrap())
+                .forEach(b -> menuPane.add(b, gbc));
         }
 
         private ActionListener onClick() {

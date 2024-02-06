@@ -12,5 +12,7 @@ public interface GameView extends View{
 
     <C> void modifyButton(Button<C> btn);
 
+    void startController();
+
     
 } 

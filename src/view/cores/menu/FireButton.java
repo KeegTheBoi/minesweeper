@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 
 import view.Level;
-import view.MenuUI.Difficulty;
+import view.cores.menu.MenuFactoryImpl.Difficulty;
 
 public class FireButton extends JButton {
     private static int WIDTH = 4;

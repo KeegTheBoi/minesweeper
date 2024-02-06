@@ -32,11 +32,13 @@ public class ViewImpl implements View {
     @Override
     public void addMainPane(Container panel) {
         this.panel = panel;
+        this.window.setScene(panel);
     }
 
     @Override
     public void setWindow(Window window) {
         this.window = window;
+        
     }
     
 }

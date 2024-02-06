@@ -4,10 +4,14 @@ import java.util.Objects;
 
 import view.GameUI;
 import view.Level;
+import view.cores.game.GameFactory;
+import view.cores.game.GameFactoryImpl;
+import view.cores.game.GameView;
 
 public class MenuController implements Controller{
 
     private Level stats;
+    private GameFactory game = new GameFactoryImpl();
 
     public MenuController() {}
 
@@ -16,7 +20,8 @@ public class MenuController implements Controller{
         if(Objects.isNull(stats)) {
             throw new IllegalStateException();
         }
-        new GameUI(stats.size(), stats);
+        GameView view = game.swingGameView(stats);
+        view.startController();
     }
 
     @Override

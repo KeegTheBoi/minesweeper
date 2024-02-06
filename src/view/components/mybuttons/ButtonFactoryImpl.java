@@ -22,5 +22,10 @@ public class ButtonFactoryImpl implements ButtonFactory{
         this.cache.put(button, added);
         return added;
     }
+
+    @Override
+    public Button<JButton> cellSwingTextButton(String text) {
+        return new Button<>(() -> new JButton(text));
+    }
     
 }

@@ -1,5 +1,6 @@
 package view.cores.windows;
 
+import view.containers.Container;
 import view.containers.Size;
 
 public interface Window {
@@ -12,10 +13,11 @@ public interface Window {
 
     void exit();
 
-    void setScene();
+    void setScene(Container container);
 
     Size getSize();
 
+    void init();
 
     
 } 
