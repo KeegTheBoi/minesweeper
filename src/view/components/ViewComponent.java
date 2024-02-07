@@ -14,6 +14,10 @@ public interface ViewComponent<V> {
 
     String getBGColor();
 
+    String imagePath();
+
+    void setImagePath(String string);
+
     String getText();
 
     boolean isDisable();

@@ -1,7 +1,10 @@
 package view.cores.game;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.*;
+import java.net.URI;
+import java.net.URL;
 import java.util.*;
 
 import javax.swing.*;
@@ -113,10 +116,16 @@ public class GameFactoryImpl implements GameFactory {
         @Override
         public <C> void modifyButton(ViewButton<C> btn) {
             JButton button = (JButton)btn.unwrap();
-            button.setText(btn.getText());
+            // button.setText(btn.getText());
+            URL u = getClass().getResource("/resource/empty.png");
+            ImageIcon icon = new ImageIcon(getClass().getResource(btn.imagePath()));
+            Image img = icon.getImage();
+            icon = new ImageIcon(img.getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+            button.setIcon(icon);
+            button.setDisabledIcon(icon);
             button.setEnabled(!btn.isDisable());
             
-            button.setBackground(Color.decode(btn.getBGColor()));
+            // button.setBackground(Color.decode(btn.getBGColor()));
         }
 
 

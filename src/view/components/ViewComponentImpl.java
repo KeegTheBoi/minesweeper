@@ -30,6 +30,7 @@ public class ViewComponentImpl<V> implements ViewComponent<V>{
     private String fgColor;
     protected Supplier<V> supplier;
     private int id;
+    private String icon;
 
     public int getId() {
         return id;
@@ -74,6 +75,16 @@ public class ViewComponentImpl<V> implements ViewComponent<V>{
     @Override
     public V unwrap() {
         return supplier.get();
+    }
+
+    @Override
+    public void setImagePath(String string) {
+        this.icon = string;
+    }
+
+    @Override
+    public String imagePath() {
+        return this.icon;
     }
     
     

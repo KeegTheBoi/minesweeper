@@ -20,6 +20,5 @@ public class ViewButton<B> extends ViewComponentImpl<B>{
     }
 
 
-
     
 }

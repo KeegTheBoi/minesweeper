@@ -8,18 +8,22 @@ import view.cores.game.GameView;
 
 import java.util.*;
 
+import javax.swing.JButton;
+
 import static java.util.function.Predicate.not;
 
 public class GameController<C> implements Controller{
+
+    private static final String IMG_DIR = "/resource/";
 
     private final Map<ViewButton<C>, Coord> cells = new HashMap<>();
     private Logics logics;
     private GameView gameView;
     private Map<Integer, String> mapColor = new HashMap<>(Map.of(
-         0, "#E8BC89",
-         1, "#FR9FCA",
-         2, "#A54451",
-         3, "#662600",
+         0, "#E8BCB9",
+         1, "#F39F5A",
+         2, "#AE445A",
+         3, "#662549",
          4, "#CC00CC",
          5, "#800080"
     ));
@@ -53,23 +57,21 @@ public class GameController<C> implements Controller{
             logics.flag(this.get(bt));
         }
     }
-
+    //can improve
     public void refresh(boolean disable) {
         cells.forEach((k, v) -> {
             var cell = logics.getResult(v);
-            
+            String path = IMG_DIR;
             if(!CellsUtils.isVeiled(cell) && CellsUtils.isValuable(cell)) {
-                String color = mapColor.get(cell.getCount().get());  //VIEW
-                k.setBGColor(color);
-                k.setText(getText(cell));
+                String test = path.concat(cell.getCount().get() + ".png");
+                k.setImagePath(test);
                 k.setDisable(disable);
             } else if (cell.isFlagged()) {
-                k.setText("⚑");
-                k.setBGColor("#FF0000");
+                k.setImagePath(path.concat("flag" + ".png"));
                 k.setDisable(false);
             } else {
-                k.setText("");
-                k.setBGColor("#1B1C1E");
+                String test = path.concat("empty" + ".png");
+                k.setImagePath(test);
                 k.setDisable(false);
             }
             gameView.modifyButton(k);
@@ -115,6 +117,7 @@ public class GameController<C> implements Controller{
             Optional.of(cell).filter(CellsUtils::isBomb).ifPresent(c ->{
                 btn.setFGColor("#B5C99A");
                 btn.setBGColor("#1D1A39");
+                btn.setImagePath(IMG_DIR.concat("flag" + ".png"));
             } );
             btn.setText(this.getText(cell));
             gameView.modifyButton(btn);
