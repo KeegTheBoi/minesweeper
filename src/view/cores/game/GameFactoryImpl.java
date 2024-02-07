@@ -1,6 +1,7 @@
 package view.cores.game;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.*;
 import java.net.URI;
@@ -79,6 +80,7 @@ public class GameFactoryImpl implements GameFactory {
 
         private ViewButton<JButton> newButton() {
             JButton btn = new JButton();
+            btn.setBorderPainted(false);
             ViewButton<JButton> button = bFactory.cellSwingFromButton(btn);
             button.setID(id++);
             button.triggerEvent(b -> b.addMouseListener(this.onRightClick()));
@@ -116,11 +118,11 @@ public class GameFactoryImpl implements GameFactory {
         @Override
         public <C> void modifyButton(ViewButton<C> btn) {
             JButton button = (JButton)btn.unwrap();
+            
             // button.setText(btn.getText());
-            URL u = getClass().getResource("/resource/empty.png");
             ImageIcon icon = new ImageIcon(getClass().getResource(btn.imagePath()));
             Image img = icon.getImage();
-            icon = new ImageIcon(img.getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+            icon = new ImageIcon(img.getScaledInstance(48,45, Image.SCALE_SMOOTH));
             button.setIcon(icon);
             button.setDisabledIcon(icon);
             button.setEnabled(!btn.isDisable());

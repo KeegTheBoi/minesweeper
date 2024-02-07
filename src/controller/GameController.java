@@ -14,7 +14,7 @@ import static java.util.function.Predicate.not;
 
 public class GameController<C> implements Controller{
 
-    private static final String IMG_DIR = "/resource/";
+    private static final String IMG_DIR = "/images/";
 
     private final Map<ViewButton<C>, Coord> cells = new HashMap<>();
     private Logics logics;
@@ -115,25 +115,10 @@ public class GameController<C> implements Controller{
             var cell = logics.getResult(entry.getValue());
             ViewButton<C> btn = entry.getKey();
             Optional.of(cell).filter(CellsUtils::isBomb).ifPresent(c ->{
-                btn.setFGColor("#B5C99A");
-                btn.setBGColor("#1D1A39");
-                btn.setImagePath(IMG_DIR.concat("flag" + ".png"));
+                btn.setImagePath(IMG_DIR.concat("mine" + ".png"));
             } );
-            btn.setText(this.getText(cell));
             gameView.modifyButton(btn);
     	}
-    }
-
-    private String getText(Cell cell) {
-        switch (cell.getType()) {
-            case MINE:
-                return "💣";
-            case GROUND:
-                return Optional.of(cell).filter(not(CellsUtils::isEmpty)).map(Cell::getCount)
-                    .map(Optional::get).map(String::valueOf).orElse("");
-            default:
-                return "";
-        }
     }
 
     
